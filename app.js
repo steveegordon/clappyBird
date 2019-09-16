@@ -1,4 +1,6 @@
 let playArea = document.getElementById("game");
+let bird;
+let liveBird;
 
 class Obstacle {
   constructor(n) {
@@ -10,9 +12,9 @@ class Obstacle {
     this.name = `object${n}`;
     this.domTop;
     this.domBottom;
-    this.placeObject();
+    this.place();
   }
-  placeObject(){
+  place() {
     this.domTop = document.createElement("div");
     this.domBottom = document.createElement("div");
     this.domTop.classList.add(`topBlock`, `${this.name}`);
@@ -38,6 +40,47 @@ class Obstacle {
   }
 }
 
+class Bird {
+  constructor() {
+    let x = this;
+    this.top = 225;
+    this.bottom = this.top + 50;
+    this.dom;
+    this.place();
+  }
+  place() {
+    this.dom = document.createElement("div");
+    this.dom.classList.add('bird');
+    playArea.appendChild(this.dom);
+    this.dom.style.top = `${this.top}px`;
+  }
+  run(obj) {
+    console.log(`${this.top}`);
+    setInterval(this.drop(obj), 10);
+  }
+  drop() {
+    if (this.top == 450) {
+        console.log("dead");
+        clearInterval(liveBird);
+    }
+    else {
+        console.log("ran");
+        this.top = this.top + 1;
+        this.dom.style.top = `${this.top}px`;
+    }
+  }
+  fly() {
+    if (this.top <= 0) {
+      console.log("dead");
+      clearInterval(liveBird);
+    }
+    else {
+    this.top = this.top - 1;
+    this.dom.style.top = `${this.top}px`;
+    }
+  }
+}
+
 // let placeObject = (obstacle) => {
 //   let topBlock = document.createElement("div");
 //   let bottomBlock = document.createElement("div");
@@ -51,7 +94,11 @@ class Obstacle {
 //   bottomBlock.style.height = (500 - obstacle.bottomBound).toString() + "px";
 //   bottomBlock.style.left = (obstacle.x - obstacle.width).toString() + "px";
 // }
-
+let swag = () => {
+  console.log("swag");
+  gameController.flight();
+  setTimeout(gameController.fall, 1000);
+}
 
 let obstacles = [];
 // let object1 = new Obstacle;
@@ -66,16 +113,38 @@ let createObstacles = function(){
       i++;
   }, 3000)};
 
-let run = (obstacles) => {
+
+let gameController = {
+ run: function (obstacles) {
+  bird = new Bird;
   createObstacles();
+  // liveBird = setInterval(function() {
+  //   bird.drop();
+  // }, 10);
+  gameController.fall();
   setInterval(
     function() {
       for (let obstacle of obstacles) {
         obstacle.move();
       }
     }, 10);
-}
+  },
+  fall: function () {
+    clearInterval(liveBird);
+    liveBird = setInterval(function() {
+    bird.drop();
+  }, 10);
+  },
+  flight: function () {
+    clearInterval(liveBird);
+    liveBird = setInterval(function() {
+    bird.fly();
+  }, 10)
+  }
+};
 
+
+document.addEventListener("keypress", swag);
 
 
 
