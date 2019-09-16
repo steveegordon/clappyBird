@@ -47,6 +47,7 @@ class Bird {
     this.bottom = this.top + 50;
     this.dom;
     this.place();
+    this.flightPhase = 0;
   }
   place() {
     this.dom = document.createElement("div");
@@ -69,14 +70,27 @@ class Bird {
         this.dom.style.top = `${this.top}px`;
     }
   }
-  fly() {
+  fly(phase) {
     if (this.top <= 0) {
       console.log("dead");
       clearInterval(liveBird);
     }
-    else {
+    else if (phase <= 10) {
+      console.log("phase1");
+    this.top = this.top - 2;
+    this.dom.style.top = `${this.top}px`;
+    this.flightPhase++
+    }
+    else if (phase <= 20) {
+      console.log("phase2");
     this.top = this.top - 1;
     this.dom.style.top = `${this.top}px`;
+    this.flightPhase++
+    }
+    else {
+      console.log("phase3");
+    // this.top = this.top - 1;
+    // this.dom.style.top = `${this.top}px`;
     }
   }
 }
@@ -97,7 +111,7 @@ class Bird {
 let swag = () => {
   console.log("swag");
   gameController.flight();
-  setTimeout(gameController.fall, 1000);
+  setTimeout(gameController.fall, 300);
 }
 
 let obstacles = [];
@@ -131,14 +145,16 @@ let gameController = {
   },
   fall: function () {
     clearInterval(liveBird);
+    bird.flightPhase = 0;
     liveBird = setInterval(function() {
     bird.drop();
   }, 10);
   },
   flight: function () {
     clearInterval(liveBird);
+    bird.flightPhase = 0;
     liveBird = setInterval(function() {
-    bird.fly();
+    bird.fly(bird.flightPhase);
   }, 10)
   }
 };
