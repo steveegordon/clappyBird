@@ -1,6 +1,7 @@
 let playArea = document.getElementById("game");
 let bird;
 let liveBird;
+let obstacles = [];
 
 class Obstacle {
   constructor(n) {
@@ -95,29 +96,11 @@ class Bird {
   }
 }
 
-// let placeObject = (obstacle) => {
-//   let topBlock = document.createElement("div");
-//   let bottomBlock = document.createElement("div");
-//   topBlock.classList.add("topBlock");
-//   bottomBlock.classList.add('bottomBlock');
-//   playArea.appendChild(topBlock);
-//   playArea.appendChild(bottomBlock);
-//   topBlock.style.left = (obstacle.x - obstacle.width).toString() + "px";
-//   topBlock.style.height = obstacle.topBound.toString() + "px";
-//   bottomBlock.style.top = obstacle.bottomBound.toString() + "px";
-//   bottomBlock.style.height = (500 - obstacle.bottomBound).toString() + "px";
-//   bottomBlock.style.left = (obstacle.x - obstacle.width).toString() + "px";
-// }
 let swag = () => {
   console.log("swag");
   gameController.flight();
   setTimeout(gameController.fall, 300);
 }
-
-let obstacles = [];
-// let object1 = new Obstacle;
-// console.log(object1);
-// placeObject(object1);
 
 let createObstacles = function(){
   let i = 0;
@@ -132,9 +115,6 @@ let gameController = {
  run: function (obstacles) {
   bird = new Bird;
   createObstacles();
-  // liveBird = setInterval(function() {
-  //   bird.drop();
-  // }, 10);
   gameController.fall();
   setInterval(
     function() {
@@ -162,15 +142,5 @@ let gameController = {
 
 document.addEventListener("keypress", swag);
 
-
-
-// let move = setInterval(function(){
-//   let top = document.getElementsByClassName("topBlock");
-//   let bottom = document.getElementsByClassName("bottomBlock");
-//   object1.x = object1.x - 1;
-//   top[0].style.left = (object1.x - object1.width).toString() + "px";
-//   bottom[0].style.left = (object1.x - object1.width).toString() + "px";
-//   if (object1.x == 0) clearInterval(move), object1 = null;
-// }, 10);
 
 
