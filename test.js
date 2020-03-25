@@ -128,7 +128,8 @@ let gameController = {
   // Move Bird(s) fraction of frames
     if (frame === 0) {
       bird0 = new Bird();
-      document.addEventListener("keypress", function() {bird0.flightPhase = 1});
+      debugger;
+      document.addEventListener("keypress", function(event) {gameController.birdHandler(event)});
     }
     if (frame === 0 || frame % 240 === 0) {
       obstacles[i] = new Obstacle(i);
@@ -155,6 +156,42 @@ let gameController = {
   },
   pause: function(){
     cancelAnimationFrame(state);
+  },
+  birdHandler: function(press){
+    let key = press.keyCode;
+    console.log(key);
+    switch(key) {
+      case 97: {
+        bird0.flightPhase = 1;
+        break;
+      }
+      case 99: {
+        bird1.flightPhase = 1;
+        break;
+      }
+      case 110: {
+        bird2.flightPhase = 1;
+        break;
+      }
+      case 108: {
+        bird3.flightPhase = 1;
+        break;
+      }
+      case 32: {
+        if (state == "pause") {
+          gameController.run();
+        }
+        else {
+        gameController.pause();
+        state = "pause";
+        }
+        break;
+      }
+      default : {
+        console.log("wrong button");
+        break;
+      }
+    }
   }
 };
 
