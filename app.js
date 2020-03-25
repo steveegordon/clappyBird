@@ -149,7 +149,7 @@ let gameController = {
     bird.flightPhase = 0;
     liveBird = setInterval(function() {
     bird.fly(bird.flightPhase);
-  }, 10)
+  }, 10);
   }
 };
 
@@ -164,10 +164,12 @@ let crash = () => {
       }
     }
   }
-}
+};
 
 
 document.addEventListener("keypress", flap);
+
+let start = setInterval(run(), 10);
 
 
 

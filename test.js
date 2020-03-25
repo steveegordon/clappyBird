@@ -10,7 +10,7 @@ let obstacles = [];
 let i = 0;
 
 class Bird {
-  constructor() {
+  constructor(n) {
     // let x = this;
     this.alive = true;
     this.top = 225;
@@ -18,12 +18,13 @@ class Bird {
     this.leftBound = 200;
     this.rightBound = this.leftBound + 50;
     this.dom;
-    this.place();
+    this.place(n);
     this.flightPhase = 0;
   }
-  place() {
+  place(n) {
     this.dom = document.createElement("div");
     this.dom.classList.add('bird');
+    this.dom.id = "player" + n.toString();
     playArea.appendChild(this.dom);
     this.dom.style.top = `${this.top}px`;
   }
@@ -122,15 +123,13 @@ class Obstacle {
   }
 }
 
+let eventHandler = document.addEventListener("keypress", function(event) {gameController.joinHandler(event);});
+
+
 let gameController = {
   run: function(){
   // Every Frame Check for crash
   // Move Bird(s) fraction of frames
-    if (frame === 0) {
-      bird0 = new Bird();
-      debugger;
-      document.addEventListener("keypress", function(event) {gameController.birdHandler(event)});
-    }
     if (frame === 0 || frame % 240 === 0) {
       obstacles[i] = new Obstacle(i);
       i++;
@@ -151,7 +150,7 @@ let gameController = {
       state = requestAnimationFrame(gameController.run);
     }
     else {
-      this.pause();
+      gameController.pause();
     }
   },
   pause: function(){
@@ -162,24 +161,33 @@ let gameController = {
     console.log(key);
     switch(key) {
       case 97: {
+        if (bird0 != null) {
         bird0.flightPhase = 1;
+        }
         break;
       }
       case 99: {
+        if (bird1 != null) {
         bird1.flightPhase = 1;
+        }
         break;
       }
       case 110: {
+        if (bird2 != null) {
         bird2.flightPhase = 1;
+        }
         break;
       }
       case 108: {
+        if (bird3 != null) {
         bird3.flightPhase = 1;
+        }
         break;
       }
       case 32: {
         if (state == "pause") {
           gameController.run();
+          state = "run";
         }
         else {
         gameController.pause();
@@ -190,6 +198,44 @@ let gameController = {
       default : {
         console.log("wrong button");
         break;
+      }
+    }
+  },
+  joinHandler: function(press){
+    let key = press.keyCode;
+    console.log(key);
+    switch(key) {
+      case 97: {
+        if (bird0 == null) {
+          console.log("createBird");
+          bird0 = new Bird(0);
+        }
+        break;
+      }
+      case 99: {
+        if (bird1 == null) {
+          bird1 = new Bird(1);
+        }
+        break;
+      }
+      case 110: {
+        if (bird2 == null) {
+          bird2 = new Bird(2);
+        }
+        break;
+      }
+      case 108: {
+        if (bird3 == null) {
+          bird3 = new Bird(3);
+        }
+        break;
+      }
+      case 32: {
+        if (bird0 != null || bird1 != null || bird2 != null || bird3 != null) {
+          gameController.run();
+          eventHandler = document.addEventListener("keypress", function(event) {gameController.birdHandler(event)});
+          state = "run";
+        }
       }
     }
   }
