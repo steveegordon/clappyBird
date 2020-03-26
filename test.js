@@ -8,11 +8,11 @@ let bird1;
 let bird2;
 let bird3;
 let obstacles = [];
+let currentObstacle = 0;
 let i = 0;
 
 class Bird {
   constructor(n) {
-    // let x = this;
     this.alive = true;
     this.top = 225;
     this.bottom = this.top + 50;
@@ -35,28 +35,27 @@ class Bird {
     setInterval(this.drop(obj), 10);
   }
   drop() {
-    if (this.top == 450) {
-        console.log("dead");
-        this.alive = false;
-        return;
+    // if (this.top == 450) {
+    //     console.log("dead");
+    //     this.alive = false;
+    //     return;
         // clearInterval(liveBird);
-    }
-    else {
+    // }
+
         console.log("ran");
         this.top++;
         this.bottom++;
         this.dom.style.top = `${this.top}px`;
         // crash();
-    }
   }
   fly(phase) {
-    if (this.top <= 0) {
-      console.log("dead");
-      this.alive = false;
-      return;
+    // if (this.top <= 0) {
+    //   console.log("dead");
+    //   this.alive = false;
+    //   return;
       // clearInterval(liveBird);
-    }
-    else if (this.flightPhase < 10) {
+    // }
+    if (this.flightPhase < 10) {
       console.log("phase1");
       this.top = this.top - 3;
       this.bottom = this.bottom - 3;
@@ -82,6 +81,25 @@ class Bird {
     // this.dom.style.top = `${this.top}px`;
     }
     // crash();
+  }
+  crash() {
+    if (this.top <= 0) {
+      console.log("dead");
+      this.alive = false;
+      return;
+    }
+    else if (this.top == 450) {
+      console.log("dead");
+      this.alive = false;
+      return;
+    }
+    else if (this.rightBound >= obstacles[currentObstacle].leftBound && this.leftBound <= obstacles[currentObstacle.rightBound]) {
+      if (this.top <= obstacles[currentObstacle].topBound || this.bottom >= obstacles[currentObstacle].bottomBound) {
+        console.log("dead");
+        this.alive = false;
+        return;
+      }
+    }
   }
 }
 
@@ -147,6 +165,7 @@ let gameController = {
         else {
           bird.drop();
         }
+        bird.crash();
       }
     }();
     if (frame < 1000 && bird0.alive == true) {
