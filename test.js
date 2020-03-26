@@ -2,6 +2,7 @@
 let playArea = document.getElementById("game");
 let state = "join";
 let frame = 0;
+let birds = [];
 let bird0;
 let bird1;
 let bird2;
@@ -20,6 +21,7 @@ class Bird {
     this.dom;
     this.place(n);
     this.flightPhase = 0;
+    birds.push(this);
   }
   place(n) {
     this.dom = document.createElement("div");
@@ -138,11 +140,13 @@ let gameController = {
       for (let obstacle of obstacles) {
         obstacle.move();
       }
-      if (bird0.flightPhase > 0){
-        bird0.fly();
-      }
-      else {
-        bird0.drop();
+      for (let bird of birds) {
+        if (bird.flightPhase > 0){
+          bird.fly();
+        }
+        else {
+          bird.drop();
+        }
       }
     }();
     if (frame < 1000 && bird0.alive == true) {
