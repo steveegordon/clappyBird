@@ -254,7 +254,7 @@ let gameController = {
         break;
       }
       case 32: {
-        if (bird0 != null || bird1 != null || bird2 != null || bird3 != null) {
+        if (state == "join" && (bird0 != null || bird1 != null || bird2 != null || bird3 != null)) {
           gameController.run();
           eventHandler = document.addEventListener("keypress", function(event) {gameController.birdHandler(event)});
           state = "run";
