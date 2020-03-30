@@ -51,7 +51,7 @@ blockquote, q {
 #game {
   height: 100vh;
   width: calc(100vw + 600px);
-  background-color: yellow;
+  background: linear-gradient(to bottom, #90dffe 0%,#38a3d1 100%);
 }
 
 #gameVisible {
@@ -61,13 +61,13 @@ blockquote, q {
 }
 
 .topBlock {
-  background-color: purple;
+  background-color: #43B047;
   position: absolute;
   width: 150px;
 }
 
 .bottomBlock {
-  background-color: green;
+  background-color: #43B047;
   position: absolute;
   height: calc(100vh - 300px);
   width: 150px;
