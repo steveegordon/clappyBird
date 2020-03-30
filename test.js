@@ -7,12 +7,14 @@ let bird0;
 let bird1;
 let bird2;
 let bird3;
+let deadBirds = 0;
 let obstacles = [];
 let currentObstacle = 0;
 let i = 0;
 
 class Bird {
   constructor(n) {
+    this.score = 0;
     this.alive = true;
     this.top = 225;
     this.bottom = this.top + 50;
@@ -41,8 +43,6 @@ class Bird {
     //     return;
         // clearInterval(liveBird);
     // }
-
-        console.log("ran");
         this.top++;
         this.bottom++;
         this.dom.style.top = `${this.top}px`;
@@ -86,19 +86,26 @@ class Bird {
     if (this.top <= 0) {
       console.log("dead");
       this.alive = false;
-      return;
+      deadBirds++;
+      this.dom.parentNode.removeChild(this.dom);
     }
     else if (this.top == 450) {
       console.log("dead");
       this.alive = false;
-      return;
+      deadBirds++;
+      this.dom.parentNode.removeChild(this.dom);
     }
-    else if (this.rightBound >= obstacles[currentObstacle].leftBound && this.leftBound <= obstacles[currentObstacle.rightBound]) {
+    else if (this.rightBound >= obstacles[currentObstacle].leftBound && this.leftBound <= obstacles[currentObstacle].rightBound) {
       if (this.top <= obstacles[currentObstacle].topBound || this.bottom >= obstacles[currentObstacle].bottomBound) {
         console.log("dead");
         this.alive = false;
-        return;
+        deadBirds++;
+        this.dom.parentNode.removeChild(this.dom);
       }
+    }
+    else if (this.leftBound > obstacles[currentObstacle].rightBound) {
+      currentObstacle++;
+      this.score++;
     }
   }
 }
@@ -159,6 +166,7 @@ let gameController = {
         obstacle.move();
       }
       for (let bird of birds) {
+        if (bird.alive) {
         if (bird.flightPhase > 0){
           bird.fly();
         }
@@ -167,8 +175,9 @@ let gameController = {
         }
         bird.crash();
       }
+      }
     }();
-    if (frame < 1000 && bird0.alive == true) {
+    if (deadBirds < birds.length) {
       frame++;
       state = requestAnimationFrame(gameController.run);
     }
@@ -229,26 +238,26 @@ let gameController = {
     console.log(key);
     switch(key) {
       case 97: {
-        if (bird0 == null) {
+        if (bird0 == null && state == "join") {
           console.log("createBird");
           bird0 = new Bird(0);
         }
         break;
       }
       case 99: {
-        if (bird1 == null) {
+        if (bird1 == null && state == "join") {
           bird1 = new Bird(1);
         }
         break;
       }
       case 110: {
-        if (bird2 == null) {
+        if (bird2 == null && state == "join") {
           bird2 = new Bird(2);
         }
         break;
       }
       case 108: {
-        if (bird3 == null) {
+        if (bird3 == null && state == "join") {
           bird3 = new Bird(3);
         }
         break;
