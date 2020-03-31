@@ -50,7 +50,8 @@ blockquote, q {
 
 #game {
   height: 100vh;
-  width: calc(100vw + 600px);
+  width: calc(100vw);
+  overflow-x: hidden;
   background: linear-gradient(to bottom, #90dffe 0%,#38a3d1 100%);
 }
 
@@ -100,3 +101,10 @@ blockquote, q {
   z-index: 1;
   background-color: teal;
 }
+
+.cloud {
+  color: #fff;
+}
+
+/*animations*/
+
