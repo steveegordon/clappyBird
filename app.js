@@ -171,5 +171,4 @@ document.addEventListener("keypress", flap);
 
 let start = setInterval(run(), 10);
 
-//
 
